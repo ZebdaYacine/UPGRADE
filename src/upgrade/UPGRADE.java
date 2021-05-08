@@ -16,16 +16,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.Grade;
-import model.Need;
-import model.Office;
-import model.Speciality;
-import model.WorkingDate;
-import upgrade.BackEnd.DateWorkingController;
-import upgrade.BackEnd.GradeController;
-import upgrade.BackEnd.NeedController;
-import upgrade.BackEnd.OfficeController;
-import upgrade.BackEnd.SpecialityController;
+import model.Employer;
+import model.Work;
+import upgrade.BackEnd.EmployerController;
+import upgrade.BackEnd.WorkController;
 
 /**
  *
@@ -106,6 +100,25 @@ public class UPGRADE extends Application {
         }
         return attValue;
     }
+    
+     public static java.util.Date getDateFromId(int id) {
+        String query = "SELECT dateWorke FROM workingdate where id =" + id;
+        Date attValue = null;
+        try {
+            com.mysql.jdbc.PreparedStatement ps = (com.mysql.jdbc.PreparedStatement) (PreparedStatement) con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                attValue = rs.getDate("dateWorke");
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return attValue;
+    }
+    
+   
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -154,12 +167,31 @@ public class UPGRADE extends Application {
 //        System.out.println(DateWorkingController.updateDateWorking(new WorkingDate(4,Date.valueOf("2012-12-22"))));
 //        System.out.println(DateWorkingController.deleteDateWorking(new WorkingDate(4)));
 
-          ObservableList<WorkingDate> listGrade  =   (ObservableList<WorkingDate>) DateWorkingController.getDateWorking(new  WorkingDate());
-          
-          for(WorkingDate date  :listGrade){
-              System.err.println(date.getId()+" "+date.getDateWork());
-          }
+//          ObservableList<WorkingDate> listGrade  =   (ObservableList<WorkingDate>) DateWorkingController.getDateWorking(new  WorkingDate());
+//          
+//          for(WorkingDate date  :listGrade){
+//              System.err.println(date.getId()+" "+date.getDateWork());
+//          }
 
+//        System.out.println(WorkController.addWork(new Work(1, 1,"present")));
+//        System.out.println(WorkController.updateWork(new Work(1, 1, 2, "absent")));
+//        System.out.println(WorkController.deleteWork(new Work(2)));
+
+//          ObservableList<Work> listWorke  =   (ObservableList<Work>) WorkController.getWork(new Work());
+//         
+//          for(Work wrk  :listWorke){
+//              System.err.println(wrk.getId()+" "+wrk.getLname()+" "+wrk.getfName()+" "+wrk.getWorkingDate()+" "+wrk.getStatus());
+//          }
+
+//        System.out.println(EmployerController.addEmployer(new Employer("sed", "sed","0658185869", Date.valueOf("1996-12-12")
+//                , Date.valueOf("2019-12-12"),"single","informatique", 0, 14, 0, 0, 1, 2)));
+
+//          ObservableList<Employer> listEmployers;
+//        listEmployers = (ObservableList<Employer>)  EmployerController.getEmployers(new Employer());
+//         
+//          for(Employer wrk  :listEmployers){
+//              System.err.println(wrk.getId()+" "+wrk.getFirstName()+" "+wrk.getLastName()+" "+wrk.getGradeName()+" "+wrk.getOfficeName());
+//          }
 
     }
 
