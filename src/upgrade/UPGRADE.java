@@ -100,15 +100,15 @@ public class UPGRADE extends Application {
         }
         return attValue;
     }
-    
-     public static java.util.Date getDateFromId(int id) {
-        String query = "SELECT dateWorke FROM workingdate where id =" + id;
+
+    public static java.util.Date getDateFromId(int id, String att, String table) {
+        String query = "SELECT " + att + " FROM " + table + " where id =" + id;
         Date attValue = null;
         try {
             com.mysql.jdbc.PreparedStatement ps = (com.mysql.jdbc.PreparedStatement) (PreparedStatement) con.prepareStatement(query);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                attValue = rs.getDate("dateWorke");
+                attValue = rs.getDate(att);
             }
             rs.close();
             ps.close();
@@ -117,8 +117,6 @@ public class UPGRADE extends Application {
         }
         return attValue;
     }
-    
-   
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -134,65 +132,56 @@ public class UPGRADE extends Application {
     public static void main(String[] args) {
         //launch(args);
         new UPGRADE();
-        
+
 //        System.out.println(OfficeController.addOffice(new Office("office1")));
 //        System.out.println(OfficeController.updateOffice(new Office(1," first office")));
 //        System.out.println(OfficeController.deleteOffice(new Office(1)));
-
 //        System.out.println(SpecialityController.addSpeciality(new Speciality("sp1")));
 //        System.out.println(SpecialityController.updateSpeciality(new Speciality(1,"ality")));
 //        System.out.println(SpecialityController.deleteSpeciality(new Speciality(2)));
-
 //        System.out.println(NeedController.addNeed(new Need(1, 1)));
 //        System.out.println(NeedController.updateNeed(new Need(1, 1, 2)));
 //        System.out.println(NeedController.deleteNeed(new Need(1)));
-
 //          ObservableList<Need> listNeed  =   (ObservableList<Need>) NeedController.getNeed(new Need());
 //          
 //          for(Need need  :listNeed){
 //              System.err.println(need.getId()+" "+need.getOfficeName()+" "+need.getSpecialityName());
 //          }
-
 //        System.out.println(GradeController.addGrade(new Grade("grade 3"," Master 2 contabilite",40)));
 //        System.out.println(GradeController.updateGrade(new Grade(1,"grade 1","Master informatique ",40)));
 //        System.out.println(GradeController.deleteGrade(new Grade(4)));
-
 //          ObservableList<Grade> listGrade  =   (ObservableList<Grade>) GradeController.getGrade(new  Grade("grade 1"));
 //          
 //          for(Grade grade  :listGrade){
 //              System.err.println(grade.getId()+" "+grade.getDeploma()+" "+grade.getName()+" "+grade.getNote());
 //          }
-
 //        System.out.println(DateWorkingController.addDateWorking(new WorkingDate(Date.valueOf("2012-12-21"))));
 //        System.out.println(DateWorkingController.updateDateWorking(new WorkingDate(4,Date.valueOf("2012-12-22"))));
 //        System.out.println(DateWorkingController.deleteDateWorking(new WorkingDate(4)));
-
 //          ObservableList<WorkingDate> listGrade  =   (ObservableList<WorkingDate>) DateWorkingController.getDateWorking(new  WorkingDate());
 //          
 //          for(WorkingDate date  :listGrade){
 //              System.err.println(date.getId()+" "+date.getDateWork());
 //          }
-
-//        System.out.println(WorkController.addWork(new Work(1, 1,"present")));
-//        System.out.println(WorkController.updateWork(new Work(1, 1, 2, "absent")));
+//        System.out.println(WorkController.addWork(new Work(3, 3,"present")));
+//        System.out.println(WorkController.updateWork(new Work(4, 2, 2, "absent")));
 //        System.out.println(WorkController.deleteWork(new Work(2)));
-
 //          ObservableList<Work> listWorke  =   (ObservableList<Work>) WorkController.getWork(new Work());
 //         
 //          for(Work wrk  :listWorke){
 //              System.err.println(wrk.getId()+" "+wrk.getLname()+" "+wrk.getfName()+" "+wrk.getWorkingDate()+" "+wrk.getStatus());
 //          }
-
-//        System.out.println(EmployerController.addEmployer(new Employer("sed", "sed","0658185869", Date.valueOf("1996-12-12")
+//        System.out.println(EmployerController.addEmployer(new Employer("med", "med","0558185869", Date.valueOf("1990-12-12")
 //                , Date.valueOf("2019-12-12"),"single","informatique", 0, 14, 0, 0, 1, 2)));
-
-//          ObservableList<Employer> listEmployers;
-//        listEmployers = (ObservableList<Employer>)  EmployerController.getEmployers(new Employer());
-//         
-//          for(Employer wrk  :listEmployers){
-//              System.err.println(wrk.getId()+" "+wrk.getFirstName()+" "+wrk.getLastName()+" "+wrk.getGradeName()+" "+wrk.getOfficeName());
-//          }
-
+//        
+//        ObservableList<Employer> listEmployers = (ObservableList<Employer>) EmployerController.getEmployers(new Employer("of"),"office");
+//        for (Employer wrk : listEmployers) {
+//            System.err.println(wrk.getId() + " " + wrk.getFirstName() + " " + wrk.getLastName() + " " + wrk.getGradeName() + " " + wrk.getOfficeName());
+//        }
+//        System.out.println(EmployerController.updateEmployer(new Employer()));
+//          double period= Date.valueOf("2012-12-30").getTime()-Date.valueOf("2012-12-10").getTime();
+//          period=(period/86400000);
+//          System.err.println(period);
     }
 
 }

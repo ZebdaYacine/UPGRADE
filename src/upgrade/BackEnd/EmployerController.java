@@ -25,7 +25,7 @@ public class EmployerController {
         try {
             PreparedStatement stm = (PreparedStatement) con.prepareStatement(""
                     + "insert into employer (firstName,lastName,phone,birthDate,recruitmentDate,socialStatus,"
-                    + "deploma,nbrchildren,note,nbrFonrmations,experience,idGrade,idOffice) "
+                    + "deploma,nbrchildren,note,nbrFonrmations,experience,idGrade,idOffice,lastUpgarde) "
                     + "values (?,?,?,?,?,?,?,?,?,?,?,?,?)");
             stm.setString(1, empl.getFirstName());
             stm.setString(2, empl.getLastName());
@@ -40,6 +40,7 @@ public class EmployerController {
             stm.setInt(11, empl.getExperience());
             stm.setInt(12, empl.getIdGrade());
             stm.setInt(13, empl.getIdOffice());
+            stm.setDate(14, (Date) empl.getRecruitmentDate());
             stm.executeUpdate();
             stm.close();
             return Results.Rstls.DATA_INSERTED;
@@ -68,9 +69,9 @@ public class EmployerController {
         try {
             PreparedStatement stm = (PreparedStatement) con.prepareStatement("UPDATE "
                     + " employer SET firstName = ? , lastName = ? , phone = ? , birthDate= ? , recruitmentDate= ?"
-                    + " socialStatus = ? , deploma = ? , nbrchildren = ? , note=? , experience=?"
-                    + " , idGrade = ? , idOffice = ? WHERE id = ?"
-                    + "WHERE id = ? ");
+                    + " , socialStatus = ? , deploma = ? , nbrchildren = ? , note=? , nbrFonrmations =? ,experience=?  "
+                    + " , idGrade = ? , idOffice = ? , lastUpgarde=? "
+                    + " WHERE id = ? ");
             stm.setString(1, empl.getFirstName());
             stm.setString(2, empl.getLastName());
             stm.setString(3, empl.getPhone());
@@ -84,6 +85,23 @@ public class EmployerController {
             stm.setInt(11, empl.getExperience());
             stm.setInt(12, empl.getIdGrade());
             stm.setInt(13, empl.getIdOffice());
+            stm.setDate(14, (Date) empl.getRecruitmentDate());
+            stm.setInt(13, empl.getId());
+            stm.executeUpdate();
+            stm.close();
+            return Results.Rstls.DATA_UPDATED;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return Results.Rstls.DATA_NOT_UPDATED;
+        }
+    }
+
+    public static Results.Rstls updateDisciplineEmployer(int disciplineValue, int idEmpl) {
+        try {
+            PreparedStatement stm = (PreparedStatement) con.prepareStatement("UPDATE "
+                    + " employer SET discipline = ? WHERE id = ? ");
+            stm.setInt(1, disciplineValue);
+            stm.setInt(2, idEmpl);
             stm.executeUpdate();
             stm.close();
             return Results.Rstls.DATA_UPDATED;
@@ -113,6 +131,7 @@ public class EmployerController {
 
     public static Object getEmployers(Employer empl, String ArgSearch) {
         String query = selctQuery(empl, ArgSearch);
+        System.out.println(query);
         ObservableList<Employer> listEmployers = FXCollections.observableArrayList(new Employer());
         listEmployers.remove(0);
         try {
@@ -143,7 +162,5 @@ public class EmployerController {
         }
         return listEmployers;
     }
-
-   
 
 }
