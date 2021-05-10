@@ -86,7 +86,7 @@ public class EmployerController {
             stm.setInt(12, empl.getIdGrade());
             stm.setInt(13, empl.getIdOffice());
             stm.setDate(14, (Date) empl.getRecruitmentDate());
-            stm.setInt(13, empl.getId());
+            stm.setInt(15, empl.getId());
             stm.executeUpdate();
             stm.close();
             return Results.Rstls.DATA_UPDATED;

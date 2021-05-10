@@ -77,8 +77,8 @@ public class OfficeController {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Office ofc = new Office();
-                office.setId(rs.getInt("id"));
-                office.setName(rs.getString("name"));
+                ofc.setId(rs.getInt("id"));
+                ofc.setName(rs.getString("name"));
                 listOffices.add(ofc);
             }
             rs.close();

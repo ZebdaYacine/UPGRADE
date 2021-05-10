@@ -26,6 +26,10 @@ public class Need {
         this.id = id;
     }
 
+    public Need(String officeName) {
+        this.officeName = officeName;
+    }
+    
     public Need(int idSpeciality, int idOffice) {
         this.idSpeciality = idSpeciality;
         this.idOffice = idOffice;

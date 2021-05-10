@@ -8,6 +8,7 @@ package upgrade.BackEnd;
 import com.mysql.jdbc.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -83,10 +84,12 @@ public class WorkController {
 
     public static Object getWork(Work work) {
         String query;
+        
         if (work.getWorkingDate() == null) {
             query = "SELECT * FROM work";
         } else {
-            query = "SELECT * FROM work where idWorkingDate ='" + upgrade.UPGRADE.getObjectIdFromName(work.getWorkingDate().toString(), "work") + "'";
+            Date dte=work.getWorkingDate();
+            query = "SELECT * FROM work where idWorkingDate ='" + upgrade.UPGRADE.getIdFromDate(dte) + "'";
         }
         ObservableList<Work> listWork = FXCollections.observableArrayList(new Work());
         listWork.remove(0);
@@ -97,7 +100,7 @@ public class WorkController {
                 Work wrk = new Work();
                 wrk.setId(rs.getInt("id"));
                 wrk.setLname(upgrade.UPGRADE.getObjectAttFromId(rs.getInt("idEmployer"), "lastName", "employer"));
-                wrk.setfName(upgrade.UPGRADE.getObjectAttFromId(rs.getInt("idEmployer"), "firstName", "employer"));
+                wrk.setFname(upgrade.UPGRADE.getObjectAttFromId(rs.getInt("idEmployer"), "firstName", "employer"));
                 wrk.setStatus(rs.getString("status"));
                 wrk.setWorkingDate(upgrade.UPGRADE.getDateFromId(rs.getInt("idWorkingDate"), "dateWorke", "workingDate"));
                 listWork.add(wrk);

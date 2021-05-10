@@ -70,6 +70,10 @@ public class Grade {
     public void setNote(int note) {
         this.note = note;
     }
+
+    public boolean isDataEmpty(Grade grd) {
+        return !grd.deploma.isEmpty() && !grd.name.isEmpty() && grd.note!=0;
+    }
     
     
 }

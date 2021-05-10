@@ -18,7 +18,7 @@ public class Work {
     private int idWorkingDate;
     private String status;
     private Date workingDate;
-    private String fName;
+    private String Fname;
     private String Lname;
 
     public Work() {
@@ -28,6 +28,11 @@ public class Work {
         this.id = id;
     }
 
+    public Work(Date workingDate) {
+        this.workingDate = workingDate;
+    }
+    
+   
     public Work(int idEmployer, int idWorkingDate, String status) {
         this.idEmployer = idEmployer;
         this.idWorkingDate = idWorkingDate;
@@ -45,7 +50,7 @@ public class Work {
         this.id = id;
         this.status = status;
         this.workingDate = workingDate;
-        this.fName = fName;
+        this.Fname = fName;
         this.Lname = Lname;
     }
 
@@ -89,12 +94,12 @@ public class Work {
         this.workingDate = workingDate;
     }
 
-    public String getfName() {
-        return fName;
+    public String getFname() {
+        return Fname;
     }
 
-    public void setfName(String fName) {
-        this.fName = fName;
+    public void setFname(String Fname) {
+        this.Fname = Fname;
     }
 
     public String getLname() {

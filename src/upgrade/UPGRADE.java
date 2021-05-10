@@ -16,9 +16,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.Employer;
+import model.Office;
 import model.Work;
-import upgrade.BackEnd.EmployerController;
+import upgrade.BackEnd.OfficeController;
 import upgrade.BackEnd.WorkController;
 
 /**
@@ -118,11 +118,29 @@ public class UPGRADE extends Application {
         return attValue;
     }
 
+    public static int getIdFromDate(java.util.Date date) {
+        String query = "SELECT id FROM workingDate where dateWorke ='" + date + "'";
+        int attValue = 0;
+        try {
+            com.mysql.jdbc.PreparedStatement ps = (com.mysql.jdbc.PreparedStatement) (PreparedStatement) con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                attValue = rs.getInt("id");
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return attValue;
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/upgrade/FrontEnd/Root.fxml"));
         Scene scene = new Scene(root);
         stage.setScene(scene);
+        loginStage = stage;
         stage.show();
     }
 
@@ -130,12 +148,16 @@ public class UPGRADE extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        //launch(args);
-        new UPGRADE();
+        launch(args);
+//        new UPGRADE();
 
 //        System.out.println(OfficeController.addOffice(new Office("office1")));
 //        System.out.println(OfficeController.updateOffice(new Office(1," first office")));
 //        System.out.println(OfficeController.deleteOffice(new Office(1)));
+//        ObservableList<Office> listNeed = (ObservableList<Office>) OfficeController.getOffices(new Office());
+//        for (Office need : listNeed) {
+//            System.err.println(need.getId() + " " + need.getName() + " " + need.getId());
+//        }
 //        System.out.println(SpecialityController.addSpeciality(new Speciality("sp1")));
 //        System.out.println(SpecialityController.updateSpeciality(new Speciality(1,"ality")));
 //        System.out.println(SpecialityController.deleteSpeciality(new Speciality(2)));
@@ -167,7 +189,6 @@ public class UPGRADE extends Application {
 //        System.out.println(WorkController.updateWork(new Work(4, 2, 2, "absent")));
 //        System.out.println(WorkController.deleteWork(new Work(2)));
 //          ObservableList<Work> listWorke  =   (ObservableList<Work>) WorkController.getWork(new Work());
-//         
 //          for(Work wrk  :listWorke){
 //              System.err.println(wrk.getId()+" "+wrk.getLname()+" "+wrk.getfName()+" "+wrk.getWorkingDate()+" "+wrk.getStatus());
 //          }

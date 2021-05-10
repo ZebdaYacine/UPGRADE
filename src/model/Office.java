@@ -46,8 +46,8 @@ public class Office {
         this.name = name;
     }
 
-    public boolean isDataEmpty(Office labo) {
-        return !labo.getName().isEmpty();
+    public boolean isDataEmpty(Office office) {
+        return !office.getName().isEmpty();
     }
     
     

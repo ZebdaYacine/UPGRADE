@@ -68,7 +68,7 @@ public class DateWorkingController {
         if (dte.getDateWork()== null) {
             query = "SELECT * FROM workingDate";
         } else {
-            query = "SELECT * FROM workingDate where dateWorke ='" + dte.getDateWork() + "'";
+            query = "SELECT * FROM workingDate where dateWorke Like'" + dte.getDateWork() + "%'";
         }
         ObservableList<WorkingDate> listDates = FXCollections.observableArrayList(new WorkingDate());
         listDates.remove(0);
