@@ -87,7 +87,7 @@ public class ListWorkUIController implements Initializable {
     @FXML
     private void loadWorkUI(ActionEvent event) throws IOException {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("/upgrade/FrontEnd/AddGradeUI.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/upgrade/FrontEnd/AddWorkUI.fxml"));
             Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setResizable(false);
@@ -101,19 +101,20 @@ public class ListWorkUIController implements Initializable {
 
     @FXML
     private void selectOffice(MouseEvent event) throws IOException {
-        Grade grd = (Grade) workTable.getSelectionModel().getSelectedItem();
-        if (grd == null) {
-            Options.information("aucun Grade  sélectionné");
+        Work wrk = (Work) workTable.getSelectionModel().getSelectedItem();
+        if (wrk == null) {
+            Options.information("aucun Date de travialle  sélectionné");
         } else {
-//            FXMLLoader loader = new FXMLLoader(getClass().getResource("/upgrade/FrontEnd/EditGradeUI.fxml"));
-//            Parent root = loader.load();
-//            EditGradeUIController controller = loader.getController();
-//            controller.intiFileds(grd);
-//            Stage stage = new Stage();
-//            stage.setTitle("information de grade");
-//            stage.setScene(new Scene(root));
-//            stage.show();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/upgrade/FrontEnd/EditWorkUI.fxml"));
+            Parent root = loader.load();
+            EditWorkUIController controller = loader.getController();
+            controller.intiFileds(wrk);
+            Stage stage = new Stage();
+            stage.setTitle("information de Date de travialle");
+            stage.setScene(new Scene(root));
+            stage.show();
         }
     }
 
+    
 }

@@ -222,6 +222,10 @@ public class Employer {
         this.gradeName = gradeName;
     }
 
+    public boolean dateIsValid() {
+        return true;
+    }
+
     
     
     

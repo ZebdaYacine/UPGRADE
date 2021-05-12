@@ -73,8 +73,8 @@ public class EditNeedUIController implements Initializable {
         String sp = (String) CmbSp.getSelectionModel().getSelectedItem();
         String idNeed = id.getText();
         if (idNeed != "" && office != "" && sp != "" ) {
-            int idOffice = upgrade.UPGRADE.getObjectIdFromName(office, "office");
-            int idSpciality = upgrade.UPGRADE.getObjectIdFromName(sp, "speciality");
+            int idOffice = upgrade.UPGRADE.getObjectIdFromName(office, "office","");
+            int idSpciality = upgrade.UPGRADE.getObjectIdFromName(sp, "speciality","");
             int iD= Integer.parseInt(idNeed);
             Need nd = new Need(iD,idOffice,idSpciality);
             String str = NeedController.updateNeed(nd) + "";

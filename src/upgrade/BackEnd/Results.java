@@ -19,6 +19,7 @@ public class Results {
         DATA_NOT_UPDATED,
         DATA_DELETED,
         DATA_NOT_DELETED,
+        DATA_HHHHHH;
         
     }
 

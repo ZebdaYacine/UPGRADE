@@ -6,6 +6,8 @@
 package upgrade.UIController;
 
 import com.jfoenix.controls.JFXComboBox;
+import com.jfoenix.controls.JFXTextField;
+import com.mysql.jdbc.PreparedStatement;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -20,19 +22,23 @@ import javafx.fxml.Initializable;
 import model.*;
 import upgrade.BackEnd.*;
 import static upgrade.UIController.ListWorkUIController.*;
+import static upgrade.UPGRADE.con;
 
 /**
  * FXML Controller class
  *
  * @author Zed-Yacine
  */
-public class AddWorkUIController implements Initializable {
+public class EditWorkUIController implements Initializable {
 
     /**
      * Initializes the controller class.
      */
     @FXML
     private JFXComboBox nameCmb, dateCmb, statusCmb;
+
+    @FXML
+    private JFXTextField id;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -45,7 +51,7 @@ public class AddWorkUIController implements Initializable {
         for (Employer empl : empls) {
             nameCmb.getItems().add(empl.getFirstName() + "  " + empl.getLastName());
         }
-        
+
         ObservableList<String> status
                 = FXCollections.observableArrayList(
                         "présent",
@@ -57,18 +63,26 @@ public class AddWorkUIController implements Initializable {
     }
 
     @FXML
-    private void addClient(ActionEvent event) throws IOException, SQLException {
-        String[]  fullName=nameCmb.getSelectionModel().getSelectedItem().toString().split("  ",2);
-        String fName=fullName[0];
-        String lName=fullName[1];
-        String dte=dateCmb.getSelectionModel().getSelectedItem().toString();
-        String status=statusCmb.getSelectionModel().getSelectedItem().toString();
-        int idEmpl=upgrade.UPGRADE.getEmplyoerIdFromFullName(fName, lName);
-        int idDate= upgrade.UPGRADE.getIdFromDate(java.sql.Date.valueOf(dte));
-        Work wrk = new Work(idEmpl,idDate,status);
-        if (!status.isEmpty() && !dte.isEmpty() && fullName.length!=0) {
-            Options.information(WorkController.addWork(wrk) + "");
-            refrechData();
+    private void deleteDoUI(ActionEvent event) throws IOException, SQLException {
+        int idWork = Integer.parseInt(id.getText());
+        String str = WorkController.deleteWork(new Work(idWork)) + "";
+        Options.information(str);
+        refrechData();
+    }
+    
+    @FXML
+    private void updateDoUI(ActionEvent event) throws IOException, SQLException {
+        String[] fullName = nameCmb.getSelectionModel().getSelectedItem().toString().split("  ", 2);
+        String fName = fullName[0];
+        String lName = fullName[1];
+        String dte = dateCmb.getSelectionModel().getSelectedItem().toString();
+        String status = statusCmb.getSelectionModel().getSelectedItem().toString();
+        int idEmpl = upgrade.UPGRADE.getEmplyoerIdFromFullName(fName, lName);
+        int idDate = upgrade.UPGRADE.getIdFromDate(java.sql.Date.valueOf(dte));
+        Work wrk = new Work(Integer.parseInt(id.getText()),idEmpl, idDate, status);
+        if (!status.isEmpty() && !dte.isEmpty() && fullName.length != 0) {
+            Options.information(WorkController.updateWork(wrk) + "");
+             refrechData();
         } else {
             Options.error("les champs sont vides");
         }
@@ -76,9 +90,16 @@ public class AddWorkUIController implements Initializable {
 
     public void refrechData() {
         try {
-            SuperController.refrechWork(table, Column1, Column2, Column3, Column4,Column5, new Work());
+            SuperController.refrechWork(table, Column1, Column2, Column3, Column4, Column5, new Work());
         } catch (SQLException ex) {
-            Logger.getLogger(AddWorkUIController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EditWorkUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void intiFileds(Work wrk) {
+        id.setText(wrk.getId() + "");
+        nameCmb.getSelectionModel().select(wrk.getFname() + "  " + wrk.getLname());
+        dateCmb.getSelectionModel().select(wrk.getWorkingDate());
+        statusCmb.getSelectionModel().select(wrk.getStatus());
     }
 }

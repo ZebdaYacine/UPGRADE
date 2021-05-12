@@ -10,16 +10,14 @@ import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.Office;
 import model.Work;
-import upgrade.BackEnd.OfficeController;
 import upgrade.BackEnd.WorkController;
+
 
 /**
  *
@@ -67,8 +65,25 @@ public class UPGRADE extends Application {
         stm.close();
     }
 
-    public static int getObjectIdFromName(String name, String table) {
+    public static int getObjectIdFromName(String name, String table,String condition) {
         String query = "SELECT id FROM " + table + " where name = '" + name + "'";
+        int id = 0;
+        try {
+            com.mysql.jdbc.PreparedStatement ps = (com.mysql.jdbc.PreparedStatement) (PreparedStatement) con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                id = rs.getInt("id");
+            }
+            rs.close();
+            ps.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return id;
+    }
+    
+    public static int getEmplyoerIdFromFullName(String Fname,String Lname) {
+        String query = "SELECT id FROM employer where firstName = '"+Fname+"' and lastName ='"+Lname+"'";
         int id = 0;
         try {
             com.mysql.jdbc.PreparedStatement ps = (com.mysql.jdbc.PreparedStatement) (PreparedStatement) con.prepareStatement(query);

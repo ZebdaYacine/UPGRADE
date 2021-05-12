@@ -69,7 +69,7 @@ public class NeedController {
         if (need.getOfficeName() == null) {
             query = "SELECT * FROM need";
         } else {
-            query = "SELECT * FROM need where idOffice = " +upgrade.UPGRADE.getObjectIdFromName(need.getOfficeName(),"office");
+            query = "SELECT * FROM need where idOffice = " +upgrade.UPGRADE.getObjectIdFromName(need.getOfficeName(),"office","");
         }
         ObservableList<Need> listNeed = FXCollections.observableArrayList(new Need());
         listNeed.remove(0);

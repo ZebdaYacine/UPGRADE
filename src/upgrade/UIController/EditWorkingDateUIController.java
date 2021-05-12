@@ -52,7 +52,7 @@ public class EditWorkingDateUIController implements Initializable {
     @FXML
     private void updateDoUI(ActionEvent event) throws IOException, SQLException {
         if (date.getValue() != null) {
-            WorkingDate dte = new WorkingDate(Integer.parseInt(id.getText()),Date.valueOf(date.getValue()));
+            WorkingDate dte = new WorkingDate(Integer.parseInt(id.getText()), Date.valueOf(date.getValue()));
             String str = DateWorkingController.updateDateWorking(dte) + "";
             Options.information(str);
             refrechData();
@@ -73,10 +73,10 @@ public class EditWorkingDateUIController implements Initializable {
         id.setText(workingDate.getId() + "");
         date.setValue(LOCAL_DATE(workingDate.getDateWork().toString()));
     }
-    
-    private  final LocalDate LOCAL_DATE (String dateString){
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    LocalDate localDate = LocalDate.parse(dateString, formatter);
-    return localDate;
-}
+
+    private final LocalDate LOCAL_DATE(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(dateString, formatter);
+        return localDate;
+    }
 }

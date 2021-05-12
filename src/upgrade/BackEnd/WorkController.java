@@ -40,7 +40,6 @@ public class WorkController {
             stm.setInt(2, work.getIdWorkingDate());
             stm.setString(3, work.getStatus());
             stm.executeUpdate();
-            stm.close();
             CalculatDesciplineVlaue(work);
             return Results.Rstls.DATA_INSERTED;
         } catch (Exception ex) {
@@ -58,7 +57,6 @@ public class WorkController {
             stm.setString(3, work.getStatus());
             stm.setInt(4, work.getId());
             stm.executeUpdate();
-            stm.close();
             CalculatDesciplineVlaue(work);
             return Results.Rstls.DATA_UPDATED;
         } catch (Exception ex) {
@@ -84,7 +82,6 @@ public class WorkController {
 
     public static Object getWork(Work work) {
         String query;
-        
         if (work.getWorkingDate() == null) {
             query = "SELECT * FROM work";
         } else {

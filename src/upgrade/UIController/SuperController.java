@@ -125,5 +125,58 @@ public class SuperController implements Initializable {
         table.setItems(works);
     }
     
+    public static void refrechEmployers(TableView table, TableColumn Column1, TableColumn Column2, 
+             TableColumn Column3, TableColumn Column4,TableColumn Column5
+            , TableColumn Column6, TableColumn Column7, 
+             TableColumn Column8, TableColumn Column9,TableColumn Column10
+            , TableColumn Column11, TableColumn Column12, 
+             TableColumn Column13, TableColumn Column14
+            ,Employer empl,String searchArg)
+            throws SQLException {
+        ObservableList<Employer> empls = (ObservableList<Employer>) EmployerController.getEmployers(empl,searchArg);
+        Column1.setCellValueFactory(
+                new PropertyValueFactory<>("id")
+        );
+        Column2.setCellValueFactory(
+                new PropertyValueFactory<>("firstName")
+        );
+        Column3.setCellValueFactory(
+                new PropertyValueFactory<>("lastName")
+        );
+        Column4.setCellValueFactory(
+                new PropertyValueFactory<>("phone")
+        );
+        Column5.setCellValueFactory(
+                new PropertyValueFactory<>("birthDate")
+        );
+        Column6.setCellValueFactory(
+                new PropertyValueFactory<>("recruitmentDate")
+        );
+        Column7.setCellValueFactory(
+                new PropertyValueFactory<>("socialStatus")
+        );
+        Column8.setCellValueFactory(
+                new PropertyValueFactory<>("nbrchildren")
+        );
+        Column9.setCellValueFactory(
+                new PropertyValueFactory<>("nbrFonrmations")
+        );
+        Column10.setCellValueFactory(
+                new PropertyValueFactory<>("experience")
+        );Column11.setCellValueFactory(
+                new PropertyValueFactory<>("deploma")
+        );
+        Column12.setCellValueFactory(
+                new PropertyValueFactory<>("note")
+        );
+        Column13.setCellValueFactory(
+                new PropertyValueFactory<>("gradeName")
+        );
+        Column14.setCellValueFactory(
+                new PropertyValueFactory<>("officeName")
+        );
+        table.setItems(empls);
+    }
+    
 
 }

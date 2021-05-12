@@ -26,7 +26,7 @@ public class EmployerController {
             PreparedStatement stm = (PreparedStatement) con.prepareStatement(""
                     + "insert into employer (firstName,lastName,phone,birthDate,recruitmentDate,socialStatus,"
                     + "deploma,nbrchildren,note,nbrFonrmations,experience,idGrade,idOffice,lastUpgarde) "
-                    + "values (?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    + "values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
             stm.setString(1, empl.getFirstName());
             stm.setString(2, empl.getLastName());
             stm.setString(3, empl.getPhone());
@@ -126,12 +126,12 @@ public class EmployerController {
                 query = "SELECT * FROM employer";
             }
         }
+        System.err.println(query+" "+ArgSearch);
         return query;
     }
 
     public static Object getEmployers(Employer empl, String ArgSearch) {
         String query = selctQuery(empl, ArgSearch);
-        System.out.println(query);
         ObservableList<Employer> listEmployers = FXCollections.observableArrayList(new Employer());
         listEmployers.remove(0);
         try {

@@ -100,8 +100,8 @@ public class GeneraleUIController implements Initializable {
     }
 
     @FXML
-    private void loadProjects(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/search/FrontEnd/ListProjectsUI.fxml"));
+    private void loadEmpl(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/upgrade/FrontEnd/ListEmployerUI.fxml"));
         main.setCenter(null);
         if (root != null) {
             main.setCenter(root);
