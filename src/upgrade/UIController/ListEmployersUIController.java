@@ -94,7 +94,6 @@ public class ListEmployersUIController implements Initializable {
         Column14 = officeColumn;
         table = EmplTable;
         loadData(new Employer(), "");
-
     }
 
     @FXML

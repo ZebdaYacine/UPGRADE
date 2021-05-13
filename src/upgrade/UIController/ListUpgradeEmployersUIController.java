@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +26,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import model.Employer;
-
+import upgrade.BackEnd.EmployerController;
 
 /**
  * FXML Controller class
@@ -35,24 +36,22 @@ import model.Employer;
 public class ListUpgradeEmployersUIController implements Initializable {
 
     @FXML
-    private TableColumn FnameColumn, LnameColumn, idColumn, statusColumn,phoneColumn,dateNColumn
-            ,dateRColumn,childrenColumn,formtionColumn,experienceColumn,noteColumn,datePColumn
-            ,gradeColumn,officeColumn,deplomeColumn,desciplineColumn;
+    private TableColumn FnameColumn, LnameColumn, idColumn, statusColumn, phoneColumn, dateNColumn, dateRColumn, childrenColumn, formtionColumn, experienceColumn, noteColumn, datePColumn, gradeColumn, officeColumn, deplomeColumn, desciplineColumn;
 
     @FXML
     private TableView EmplTable;
 
     @FXML
-    private JFXTextField searchText;
+    private JFXTextField searchText, nbr;
 
-    public static TableColumn Column1, Column2, Column3, Column4, Column5,Column6, Column7, Column8, Column9, Column10,
-            Column11, Column12, Column13, Column14,Column15,Column16;
+    public static TableColumn Column1, Column2, Column3, Column4, Column5, Column6, Column7, Column8, Column9, Column10,
+            Column11, Column12, Column13, Column14, Column15, Column16;
     public static TableView table;
 
-    public void loadData(Employer empl,String searchArg) {
+    public void loadData(Employer empl, String searchArg) {
         try {
             SuperController.refrechEmployers(table, Column1, Column2, Column3, Column4, Column5, Column6, Column7,
-                    Column8, Column9, Column10, Column11, Column12, Column13, Column14,Column15,Column16, empl,searchArg,1);
+                    Column8, Column9, Column10, Column11, Column12, Column13, Column14, Column15, Column16, empl, searchArg, 1);
         } catch (SQLException ex) {
             Logger.getLogger(ListUpgradeEmployersUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -71,13 +70,14 @@ public class ListUpgradeEmployersUIController implements Initializable {
         Column9 = formtionColumn;
         Column10 = experienceColumn;
         Column11 = deplomeColumn;
-        Column12 = noteColumn ;
+        Column12 = noteColumn;
         Column13 = gradeColumn;
         Column14 = officeColumn;
-        Column15=datePColumn;
-        Column16=desciplineColumn;
+        Column15 = datePColumn;
+        Column16 = desciplineColumn;
         table = EmplTable;
-        loadData(new Employer(),"upgrade");
+        loadData(new Employer(), "upgrade");
+        nbr.setText("0");
     }
 
     @FXML
@@ -87,17 +87,18 @@ public class ListUpgradeEmployersUIController implements Initializable {
     @FXML
     public void search(KeyEvent ky) throws SQLException {
         if (searchText.getText().isEmpty()) {
-            loadData(new Employer(),"upgrade");
+            loadData(new Employer(), "upgrade");
         } else {
             try {
-                loadData(new Employer(searchText.getText()),"office");
+                loadData(new Employer(searchText.getText()), "office");
+                ObservableList<Employer> empls = (ObservableList<Employer>) EmployerController.getEmployers(new Employer(searchText.getText()), "office");
+                nbr.setText(empls.size()+"");
             } catch (Exception ex) {
                 System.err.println("Data not valid");
             }
         }
     }
 
-   
     @FXML
     private void selectEmpl(MouseEvent event) throws IOException {
         Employer empl = (Employer) EmplTable.getSelectionModel().getSelectedItem();
@@ -115,5 +116,4 @@ public class ListUpgradeEmployersUIController implements Initializable {
         }
     }
 
-    
 }
