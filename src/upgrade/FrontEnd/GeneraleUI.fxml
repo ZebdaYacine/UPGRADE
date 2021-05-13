@@ -101,7 +101,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </JFXButton>
-            <JFXButton id="storgebtn" fx:id="logoutBtn21" alignment="CENTER" layoutX="10.0" layoutY="314.0" onAction="#loadDo" prefHeight="40.0" prefWidth="200.0" text="    Registre de présences" textAlignment="RIGHT">
+            <JFXButton id="storgebtn" fx:id="logoutBtn21" alignment="CENTER" layoutX="10.0" layoutY="314.0" onAction="#loadUpgrade" prefHeight="40.0" prefWidth="200.0" text="Liste des promotions" textAlignment="RIGHT">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,32 +24,31 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.input.MouseEvent;
 import javafx.util.Callback;
 import model.Employer;
 import model.Grade;
 import model.Office;
+import model.WorkingDate;
 import upgrade.BackEnd.EmployerController;
 import upgrade.BackEnd.GradeController;
 import upgrade.BackEnd.OfficeController;
-import static upgrade.UIController.ListEmployersUIController.*;
+import static upgrade.UIController.ListUpgradeEmployersUIController.*;
 
 /**
  * FXML Controller class
  *
  * @author Zed-Yacine
  */
-public class AddEmployerUIController implements Initializable {
+public class UpgradeEmployerUIController implements Initializable {
 
     @FXML
     private JFXComboBox CmbOffice, CmbGrade, statusSCmb;
 
     @FXML
-    private JFXDatePicker dateN, dateR;
+    private JFXDatePicker dateN, dateR, dateP;
 
     @FXML
-    private JFXTextField Fname, Lname, phone, nbrChildren, deploma, formations, experience, note;
+    private JFXTextField id, Fname, Lname, phone, nbrChildren, deploma, formations, experience,descipline, note;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -71,34 +72,54 @@ public class AddEmployerUIController implements Initializable {
     }
 
     @FXML
-    private void addEmployer(ActionEvent event) throws IOException, SQLException {
+    private void updateUI(ActionEvent event) throws IOException, SQLException {
         String grade = (String) CmbGrade.getSelectionModel().getSelectedItem();
         String office = (String) CmbOffice.getSelectionModel().getSelectedItem();
         int idOffice = upgrade.UPGRADE.getObjectIdFromName(office, "office", "");
         int idGrade = upgrade.UPGRADE.getObjectIdFromName(grade, "grade", "");
-        Employer empl = new Employer(Fname.getText(), Lname.getText(), phone.getText(),
-                Date.valueOf(dateN.getValue()), Date.valueOf(dateR.getValue()),
+        Employer empl = new Employer(getInt(id.getText()), Fname.getText(), Lname.getText(), phone.getText(),
+                Date.valueOf(dateN.getValue()), Date.valueOf(dateR.getValue()), Date.valueOf(dateP.getValue()),
                 statusSCmb.getSelectionModel().getSelectedItem().toString(),
                 deploma.getText(), getInt(nbrChildren.getText()), getInt(note.getText()), getInt(formations.getText()),
-                getInt(experience.getText()), idGrade, idOffice);
+                getInt(experience.getText()), idGrade, idOffice,descipline.getText());
         if (empl.dateIsValid()) {
-            Options.information(EmployerController.addEmployer(empl) + "");
+            Options.information(EmployerController.updateEmployer(empl, "upgrade grade") + "");
             refrechData();
         }
-    }
-
-    @FXML
-    private void calculatExperience(ActionEvent event) throws IOException, SQLException {
-        experience.setText(upgrade.UPGRADE.getExperienceVlaue(dateR)+"");
     }
 
     public void refrechData() {
         try {
             SuperController.refrechEmployers(table, Column1, Column2, Column3, Column4, Column5, Column6,
                     Column7, Column8, Column9, Column10, Column11,
-                    Column12, Column13, Column14, new TableColumn(), new TableColumn(), new Employer(), "", 0);
+                    Column12, Column13, Column14, Column15,Column16, new Employer(), "",1);
         } catch (SQLException ex) {
             Logger.getLogger(ListEmployersUIController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    public void intiFileds(Employer empl) {
+        id.setText(empl.getId() + "");
+        deploma.setText(empl.getDeploma());
+        formations.setText(empl.getNbrFonrmations() + "");
+        experience.setText(empl.getExperience() + "");
+        note.setText(empl.getNote() + "");
+        nbrChildren.setText(empl.getNbrchildren() + "");
+        statusSCmb.getSelectionModel().select(empl.getSocialStatus());
+        CmbGrade.getSelectionModel().select(empl.getGradeName());
+        CmbOffice.getSelectionModel().select(empl.getOfficeName());
+        Fname.setText(empl.getFirstName());
+        Lname.setText(empl.getLastName());
+        phone.setText(empl.getPhone());
+        dateN.setValue(LOCAL_DATE(empl.getBirthDate().toString()));
+        dateR.setValue(LOCAL_DATE(empl.getRecruitmentDate().toString()));
+        dateP.setValue(LOCAL_DATE(empl.getLastUpgardeDate().toString()));
+        descipline.setText(empl.getDescipline());
+    }
+
+    private final LocalDate LOCAL_DATE(String dateString) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate localDate = LocalDate.parse(dateString, formatter);
+        return localDate;
     }
 }

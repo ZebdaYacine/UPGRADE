@@ -5,7 +5,10 @@
  */
 package upgrade;
 
+import com.jfoenix.controls.JFXDatePicker;
 import java.sql.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,9 +18,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import model.Work;
-import upgrade.BackEnd.WorkController;
-
 
 /**
  *
@@ -65,7 +65,7 @@ public class UPGRADE extends Application {
         stm.close();
     }
 
-    public static int getObjectIdFromName(String name, String table,String condition) {
+    public static int getObjectIdFromName(String name, String table, String condition) {
         String query = "SELECT id FROM " + table + " where name = '" + name + "'";
         int id = 0;
         try {
@@ -81,9 +81,9 @@ public class UPGRADE extends Application {
         }
         return id;
     }
-    
-    public static int getEmplyoerIdFromFullName(String Fname,String Lname) {
-        String query = "SELECT id FROM employer where firstName = '"+Fname+"' and lastName ='"+Lname+"'";
+
+    public static int getEmplyoerIdFromFullName(String Fname, String Lname) {
+        String query = "SELECT id FROM employer where firstName = '" + Fname + "' and lastName ='" + Lname + "'";
         int id = 0;
         try {
             com.mysql.jdbc.PreparedStatement ps = (com.mysql.jdbc.PreparedStatement) (PreparedStatement) con.prepareStatement(query);
@@ -159,6 +159,21 @@ public class UPGRADE extends Application {
         stage.show();
     }
 
+    public static String getCurrentDate() {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDateTime now = LocalDateTime.now();
+        return dtf.format(now);
+    }
+
+    public static int getExperienceVlaue(JFXDatePicker dateR ) {
+        String currentDate = upgrade.UPGRADE.getCurrentDate();
+        double period = java.sql.Date.valueOf(currentDate).getTime()
+                - java.sql.Date.valueOf(dateR.getValue()).getTime();
+        period = (period / 86400000);
+        int exper = (int) (period / 365);
+        return exper;
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -209,7 +224,6 @@ public class UPGRADE extends Application {
 //          }
 //        System.out.println(EmployerController.addEmployer(new Employer("med", "med","0558185869", Date.valueOf("1990-12-12")
 //                , Date.valueOf("2019-12-12"),"single","informatique", 0, 14, 0, 0, 1, 2)));
-//        
 //        ObservableList<Employer> listEmployers = (ObservableList<Employer>) EmployerController.getEmployers(new Employer("of"),"office");
 //        for (Employer wrk : listEmployers) {
 //            System.err.println(wrk.getId() + " " + wrk.getFirstName() + " " + wrk.getLastName() + " " + wrk.getGradeName() + " " + wrk.getOfficeName());

@@ -65,13 +65,22 @@ public class EmployerController {
         }
     }
 
-    public static Results.Rstls updateEmployer(Employer empl) {
+    public static Results.Rstls updateEmployer(Employer empl, String updatestatus) {
         try {
-            PreparedStatement stm = (PreparedStatement) con.prepareStatement("UPDATE "
-                    + " employer SET firstName = ? , lastName = ? , phone = ? , birthDate= ? , recruitmentDate= ?"
-                    + " , socialStatus = ? , deploma = ? , nbrchildren = ? , note=? , nbrFonrmations =? ,experience=?  "
-                    + " , idGrade = ? , idOffice = ? , lastUpgarde=? "
-                    + " WHERE id = ? ");
+            PreparedStatement stm = null;
+            if (updatestatus.equals("upgrade grade")) {
+                stm = (PreparedStatement) con.prepareStatement("UPDATE "
+                        + " employer SET firstName = ? , lastName = ? , phone = ? , birthDate= ? , recruitmentDate= ?"
+                        + " , socialStatus = ? , deploma = ? , nbrchildren = ? , note=? , nbrFonrmations =? ,experience=?  "
+                        + " , idGrade = ? , idOffice = ? , lastUpgarde=? "
+                        + " WHERE id = ? ");
+            } else {
+                stm = (PreparedStatement) con.prepareStatement("UPDATE "
+                        + " employer SET firstName = ? , lastName = ? , phone = ? , birthDate= ? , recruitmentDate= ?"
+                        + " , socialStatus = ? , deploma = ? , nbrchildren = ? , note=? , nbrFonrmations =? ,experience=?  "
+                        + " , idGrade = ? , idOffice = ? "
+                        + " WHERE id = ? ");
+            }
             stm.setString(1, empl.getFirstName());
             stm.setString(2, empl.getLastName());
             stm.setString(3, empl.getPhone());
@@ -85,8 +94,12 @@ public class EmployerController {
             stm.setInt(11, empl.getExperience());
             stm.setInt(12, empl.getIdGrade());
             stm.setInt(13, empl.getIdOffice());
-            stm.setDate(14, (Date) empl.getRecruitmentDate());
-            stm.setInt(15, empl.getId());
+            if (updatestatus.equals("upgrade grade")) {
+                stm.setDate(14, (Date) empl.getLastUpgardeDate());
+                stm.setInt(15, empl.getId());
+            } else {
+                stm.setInt(14, empl.getId());
+            }
             stm.executeUpdate();
             stm.close();
             return Results.Rstls.DATA_UPDATED;
@@ -122,11 +135,15 @@ public class EmployerController {
                 query = "SELECT * FROM employer where phone LIKE '" + empl.getPhone() + "%'";
                 break;
             }
+            case "upgrade": {
+                query = "SELECT * FROM upgrade.employer order by note desc,  experience desc ,"
+                        + " discipline desc,socialStatus desc,nbrchildren desc,birthDate asc ";
+                break;
+            }
             default: {
                 query = "SELECT * FROM employer";
             }
         }
-        System.err.println(query+" "+ArgSearch);
         return query;
     }
 
@@ -151,8 +168,10 @@ public class EmployerController {
                 emp.setNote(rs.getInt("note"));
                 emp.setNbrFonrmations(rs.getInt("nbrFonrmations"));
                 emp.setExperience(rs.getInt("experience"));
+                emp.setLastUpgardeDate(rs.getDate("lastUpgarde"));
                 emp.setGradeName(upgrade.UPGRADE.getObjectAttFromId(rs.getInt("idGrade"), "name", "grade"));
                 emp.setOfficeName(upgrade.UPGRADE.getObjectAttFromId(rs.getInt("idOffice"), "name", "office"));
+                emp.setDescipline(rs.getInt("discipline") + "%");
                 listEmployers.add(emp);
             }
             rs.close();
@@ -161,6 +180,21 @@ public class EmployerController {
             ex.printStackTrace();
         }
         return listEmployers;
+    }
+
+    public static Results.Rstls updateExperience(Employer empl) {
+        try {
+            PreparedStatement stm = (PreparedStatement) con.prepareStatement("UPDATE "
+                    + " employer SET experience=?  WHERE id = ? ");
+            stm.setInt(1, empl.getExperience());
+            stm.setInt(2, empl.getId());
+            stm.executeUpdate();
+            stm.close();
+            return Results.Rstls.DATA_UPDATED;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return Results.Rstls.DATA_NOT_UPDATED;
+        }
     }
 
 }

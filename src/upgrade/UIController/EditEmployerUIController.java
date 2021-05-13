@@ -24,6 +24,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TableColumn;
 import javafx.util.Callback;
 import model.Employer;
 import model.Grade;
@@ -79,6 +80,11 @@ public class EditEmployerUIController implements Initializable {
             refrechData();
         }
     }
+    
+    @FXML
+    private void calculatExperience(ActionEvent event) throws IOException, SQLException {
+        experience.setText(upgrade.UPGRADE.getExperienceVlaue(dateR)+"");
+    }
 
     @FXML
     private void updateUI(ActionEvent event) throws IOException, SQLException {
@@ -87,12 +93,12 @@ public class EditEmployerUIController implements Initializable {
         int idOffice = upgrade.UPGRADE.getObjectIdFromName(office, "office", "");
         int idGrade = upgrade.UPGRADE.getObjectIdFromName(grade, "grade", "");
         Employer empl = new Employer(getInt(id.getText()),Fname.getText(), Lname.getText(), phone.getText(),
-                Date.valueOf(dateN.getValue()), Date.valueOf(dateR.getValue()),
+                Date.valueOf(dateN.getValue()), Date.valueOf(dateR.getValue()),Date.valueOf(dateR.getValue()),
                 statusSCmb.getSelectionModel().getSelectedItem().toString(),
                 deploma.getText(), getInt(nbrChildren.getText()), getInt(note.getText()), getInt(formations.getText()),
-                getInt(experience.getText()), idGrade, idOffice);
+                getInt(experience.getText()), idGrade, idOffice,"");
         if (empl.dateIsValid()) {
-            Options.information(EmployerController.updateEmployer(empl) + "");
+            Options.information(EmployerController.updateEmployer(empl,"") + "");
             refrechData();
         }
     }
@@ -101,7 +107,7 @@ public class EditEmployerUIController implements Initializable {
         try {
             SuperController.refrechEmployers(table, Column1, Column2, Column3, Column4, Column5, Column6,
                     Column7, Column8, Column9, Column10, Column11,
-                    Column12, Column13, Column14, new Employer(), "");
+                    Column12, Column13, Column14,new TableColumn(),new TableColumn(), new Employer(), "",0);
         } catch (SQLException ex) {
             Logger.getLogger(ListEmployersUIController.class.getName()).log(Level.SEVERE, null, ex);
         }

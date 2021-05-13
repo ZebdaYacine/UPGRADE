@@ -109,8 +109,8 @@ public class GeneraleUIController implements Initializable {
     }
 
     @FXML
-    private void loadDo(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/search/FrontEnd/ListDoUI.fxml"));
+    private void loadUpgrade(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/upgrade/FrontEnd/ListUpgradeEmployerUI.fxml"));
         main.setCenter(null);
         if (root != null) {
             main.setCenter(root);

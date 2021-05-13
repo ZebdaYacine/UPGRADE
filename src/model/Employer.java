@@ -19,6 +19,7 @@ public class Employer {
     private String phone;
     private Date birthDate;
     private Date recruitmentDate;
+    private Date lastUpgardeDate;
     private String socialStatus;
     private String deploma;
     private int nbrchildren;
@@ -29,6 +30,7 @@ public class Employer {
     private int idOffice;
     private String officeName;
     private String gradeName;
+    private String descipline;
 
     public Employer(int id) {
         this.id = id;
@@ -41,8 +43,15 @@ public class Employer {
         this.phone = searchArg;
         this.officeName = searchArg;
     }
-    
-    
+
+    public Employer(int id, int attr,String key) {
+        this.id = id;
+        if (key.equals("Exper")) {
+            this.experience = attr;
+        } else {
+            this.idGrade = attr;
+        }
+    }
 
     public Employer(String firstName, String lastName, String phone, Date birthDate, Date recruitmentDate, String socialStatus, String deploma, int nbrchildren, int note, int nbrFonrmations, int experience, int idGrade, int idOffice) {
         this.firstName = firstName;
@@ -60,13 +69,16 @@ public class Employer {
         this.idOffice = idOffice;
     }
 
-    public Employer(int id, String firstName, String lastName, String phone, Date birthDate, Date recruitmentDate, String socialStatus, String deploma, int nbrchildren, int note, int nbrFonrmations, int experience, String officeName, String gradeName) {
+    public Employer(int id, String firstName, String lastName, String phone, Date birthDate, Date recruitmentDate, Date lastUpgardeDate,
+            String socialStatus, String deploma, int nbrchildren, int note, int nbrFonrmations,
+            int experience, String officeName, String gradeName, String descipline) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.birthDate = birthDate;
         this.recruitmentDate = recruitmentDate;
+        this.lastUpgardeDate = lastUpgardeDate;
         this.socialStatus = socialStatus;
         this.deploma = deploma;
         this.nbrchildren = nbrchildren;
@@ -75,15 +87,19 @@ public class Employer {
         this.experience = experience;
         this.officeName = officeName;
         this.gradeName = gradeName;
+        this.descipline = descipline;
     }
 
-    public Employer(int id, String firstName, String lastName, String phone, Date birthDate, Date recruitmentDate, String socialStatus, String deploma, int nbrchildren, int note, int nbrFonrmations, int experience, int idGrade, int idOffice) {
+    public Employer(int id, String firstName, String lastName, String phone, Date birthDate, Date recruitmentDate, Date lastUpgardeDate,
+            String socialStatus, String deploma, int nbrchildren, int note,
+            int nbrFonrmations, int experience, int idGrade, int idOffice, String descipline) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone = phone;
         this.birthDate = birthDate;
         this.recruitmentDate = recruitmentDate;
+        this.lastUpgardeDate = lastUpgardeDate;
         this.socialStatus = socialStatus;
         this.deploma = deploma;
         this.nbrchildren = nbrchildren;
@@ -92,6 +108,8 @@ public class Employer {
         this.experience = experience;
         this.idGrade = idGrade;
         this.idOffice = idOffice;
+        this.descipline = descipline;
+
     }
 
     public int getId() {
@@ -226,7 +244,20 @@ public class Employer {
         return true;
     }
 
-    
-    
-    
+    public Date getLastUpgardeDate() {
+        return lastUpgardeDate;
+    }
+
+    public void setLastUpgardeDate(Date lastUpgardeDate) {
+        this.lastUpgardeDate = lastUpgardeDate;
+    }
+
+    public String getDescipline() {
+        return descipline;
+    }
+
+    public void setDescipline(String descipline) {
+        this.descipline = descipline;
+    }
+
 }
